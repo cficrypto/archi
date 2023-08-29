@@ -310,16 +310,16 @@ static inline unsigned int __attribute__ ((always_inline)) __ExtInsMaskSafe(unsi
 
 
 
-#define __READ_BASE_OFF(base, off)           	__builtin_pulp_read_base_off((base), (off))
-#define __WRITE_BASE_OFF(base, off, val)     	__builtin_pulp_write_base_off((base), (off), (val))
+#define __READ_BASE_OFF(base, off)           	*((long unsigned int *)(base)+(off))
+#define __WRITE_BASE_OFF(base, off, val)     	*((long unsigned int *)(base)+(off)) = (val)
 
-#define __READ_BASE_OFF_VOL(base, off)       	__builtin_pulp_OffsetedRead((base), (off))
-#define __READ_BASE_OFF_HALF_VOL(base, off)  	__builtin_pulp_OffsetedReadHalf((base), (off))
-#define __READ_BASE_OFF_BYTE_VOL(base, off)  	__builtin_pulp_OffsetedReadByte((base), (off))
+#define __READ_BASE_OFF_VOL(base, off)       	*((long unsigned int *)(base)+(off))
+#define __READ_BASE_OFF_HALF_VOL(base, off)  	*((unsigned short *)(base)+(off))
+#define __READ_BASE_OFF_BYTE_VOL(base, off)  	*((unsigned char *)(base)+(off))
 
-#define __WRITE_BASE_OFF_VOL(x, base, off)       	__builtin_pulp_OffsetedWrite((x), (base), (off))
-#define __WRITE_BASE_OFF_HALF_VOL(x, base, off)  	__builtin_pulp_OffsetedWriteHalf((x), (base), (off))
-#define __WRITE_BASE_OFF_BYTE_VOL(x, base, off)  	__builtin_pulp_OffsetedWriteByte((x), (base), (off))
+#define __WRITE_BASE_OFF_VOL(x, base, off)       	*((long unsigned int *)(base)+(off)) = (x)
+#define __WRITE_BASE_OFF_HALF_VOL(x, base, off)  	*((unsigned short *)(base)+(off)) = (x)
+#define __WRITE_BASE_OFF_BYTE_VOL(x, base, off)  	*((unsigned char *)(base)+(off)) = (x)
 /* Utilities, Target independant */
 #define FIX2FP(Val, Precision)						((float) (Val) / (float) (1<<(Precision)))
 #define FP2FIXR(Val, Precision)						((int)((Val)*((1 << (Precision))-1) + 0.5))
