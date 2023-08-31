@@ -47,6 +47,7 @@
  */
 
 #define ARCHI_HAS_L2_ALIAS             1
+#define ARCHI_NO_L1_TINY               1
 
 
 
