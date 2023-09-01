@@ -46,42 +46,42 @@ typedef void * rt_pointerT;
 typedef unsigned int rt_pointerT;
 #endif
 /* Packing of scalars into vectors */
-#define __PACK2(x, y)		__builtin_pulp_pack2((signed short)   (x), (signed short)   (y))
-#define __PACKU2(x, y)		__builtin_pulp_pack2((unsigned short) (x), (unsigned short) (y))
+#define __PACK2(x, y)		__builtin_riscv_cv_simd_packlo_h_si((signed short)   (x), (signed short)   (y))
+#define __PACKU2(x, y)		__builtin_riscv_cv_simd_packlo_h_si((unsigned short) (x), (unsigned short) (y))
 
-#define __PACK4(x, y, z, t)		__builtin_pulp_pack4((signed char)   (x), (signed char)   (y), (signed char)   (z), (signed char)   (t))
-#define __PACKU4(x, y, z, t)		__builtin_pulp_pack4((unsigned char) (x), (unsigned char) (y), (unsigned char) (z), (unsigned char) (t))
+#define __PACK4(x, y, z, t)		__builtin_riscv_cv_simd_packlo_b_si((signed char)   (x), (signed char)   (y), (signed char)   (z), (signed char)   (t))
+#define __PACKU4(x, y, z, t)		__builtin_riscv_cv_simd_packlo_b_si((unsigned char) (x), (unsigned char) (y), (unsigned char) (z), (unsigned char) (t))
 
 /* Max */
-#define __MAX(a, b)         __builtin_pulp_maxsi((a), (b))
+#define __MAX(a, b)         __builtin_riscv_cv_alu_max((a), (b))
 
-#define __MAX2(x, y) 		__builtin_pulp_max2((x), (y))
-#define __MAX4(x, y) 		__builtin_pulp_max4((x), (y))
+#define __MAX2(x, y) 		__builtin_riscv_cv_simd_max_h_si((x), (y))
+#define __MAX4(x, y) 		__builtin_riscv_cv_simd_max_b_si((x), (y))
 
-#define __MAXU2(x, y) 		__builtin_pulp_maxu2((x), (y))
-#define __MAXU4(x, y) 		__builtin_pulp_maxu4((x), (y))
+#define __MAXU2(x, y) 		__builtin_riscv_cv_simd_maxu_h_si((x), (y))
+#define __MAXU4(x, y) 		__builtin_riscv_cv_simd_maxu_b_si((x), (y))
 
 /* Min */
-#define __MIN2(x, y) 		__builtin_pulp_min2((x), (y))
-#define __MIN4(x, y) 		__builtin_pulp_min4((x), (y))
+#define __MIN2(x, y) 		__builtin_riscv_cv_simd_min_h_si((x), (y))
+#define __MIN4(x, y) 		__builtin_riscv_cv_simd_min_b_si((x), (y))
 
-#define __MINU2(x, y) 		__builtin_pulp_minu2((x), (y))
-#define __MINU4(x, y) 		__builtin_pulp_minu4((x), (y))
+#define __MINU2(x, y) 		__builtin_riscv_cv_simd_minu_h_si((x), (y))
+#define __MINU4(x, y) 		__builtin_riscv_cv_simd_minu_b_si((x), (y))
 
 /* Clip */
-#define __CLIP(x, precision) 	__builtin_pulp_clip((x), -(1<<(precision)), (1<<precision)-1)
-#define __CLIP_R(x, bound) 		__builtin_pulp_clip_r((x), (bound))
+#define __CLIP(x, precision) 	__builtin_riscv_cv_alu_clip((x), (1<<precision)-1)
+#define __CLIP_R(x, bound) 		__builtin_riscv_cv_alu_clip((x), (bound))
 
-#define __CLIPU(x, precision) 	__builtin_pulp_clipu((x), 0, (1<<precision)-1)
-#define __CLIPU_R(x, bound) 		__builtin_pulp_clipu_r((x), (bound))
+#define __CLIPU(x, precision) 	__builtin_riscv_cv_alu_clipu((x), (1<<precision)-1)
+#define __CLIPU_R(x, bound) 		__builtin_riscv_cv_alu_clipu((x), (bound))
 
 /* Abs */
-#define __ABS2(x) 			__builtin_pulp_abs2((x))
-#define __ABS4(x) 			__builtin_pulp_abs4((x))
+#define __ABS2(x) 			__builtin_riscv_cv_simd_abs_h_si((x))
+#define __ABS4(x) 			__builtin_riscv_cv_simd_abs_b_si((x))
 
 /* Unary minus */
-#define __NEG2(x) 			__builtin_pulp_neg2((x))
-#define __NEG4(x) 			__builtin_pulp_neg4((x))
+#define __NEG2(x) 			__builtin_riscv_cv_simd_neg_h_si((x))
+#define __NEG4(x) 			__builtin_riscv_cv_simd_neg_b_si((x))
 
 /* Addition */
 #define __ADD2(x, y) 		__builtin_pulp_add2((x), (y))
@@ -225,8 +225,8 @@ typedef unsigned int rt_pointerT;
 #endif
 
 /* Position of the most significant bit of x */
-#define __FF1(x)			__builtin_pulp_ff1((x))
-#define __FL1(x)			__builtin_pulp_fl1((x))
+#define __FF1(x)			__builtin_riscv_cv_bitmanip_ff1((x))
+#define __FL1(x)			__builtin_riscv_cv_bitmanip_fl1((x))
 
 /* Number of sign bits */
 #define __CLB(x)			__builtin_pulp_clb((x))
@@ -245,19 +245,19 @@ static inline unsigned int __attribute__ ((always_inline)) __ExtInsMaskSafe(unsi
 #define __BITCLR_R_SAFE(x, size, off)        __builtin_pulp_bclr_r((x), __ExtInsMaskSafe((size), (off)))
 
 /* Bit Extraction */
-#define __BITEXTRACT(x, size, off)		__builtin_pulp_bextract((x), (size), (off))
-#define __BITEXTRACTU(x, size, off)		__builtin_pulp_bextractu((x), (size), (off))
+#define __BITEXTRACT(x, size, off)		__builtin_riscv_cv_bitmanip_extract((x), __ExtInsMaskFast((size), (off)))
+#define __BITEXTRACTU(x, size, off)		__builtin_riscv_cv_bitmanip_extractu((x), __ExtInsMaskFast((size), (off)))
 
-#define __BITEXTRACT_R(x, size, off)		__builtin_pulp_bextract_r((x), __ExtInsMaskFast((size), (off)))
-#define __BITEXTRACTU_R(x, size, off)	__builtin_pulp_bextractu_r((x), __ExtInsMaskFast((size), (off)))
+#define __BITEXTRACT_R(x, size, off)		__builtin_riscv_cv_bitmanip_extract((x), __ExtInsMaskFast((size), (off)))
+#define __BITEXTRACTU_R(x, size, off)	__builtin_riscv_cv_bitmanip_extractu((x), __ExtInsMaskFast((size), (off)))
 
-#define __BITEXTRACT_R_SAFE(x, size, off)	__builtin_pulp_bextract_r((x), __ExtInsMaskSafe((size), (off)))
-#define __BITEXTRACTU_R_SAFE(x, size, off)	__builtin_pulp_bextractu_r((x), __ExtInsMaskSafe((size), (off)))
+#define __BITEXTRACT_R_SAFE(x, size, off)	__builtin_riscv_cv_bitmanip_extract((x), __ExtInsMaskSafe((size), (off)))
+#define __BITEXTRACTU_R_SAFE(x, size, off)	__builtin_riscv_cv_bitmanip_extractu((x), __ExtInsMaskSafe((size), (off)))
 
 /* Bit insertion */
-#define __BITINSERT(dst, src, size, off) 	__builtin_pulp_binsert((dst), ~(((1<<(size))-1)<<(off)), (src), (((1<<(size))-1)<<(off)), (off))
-#define __BITINSERT_R(dst, src, size, off) 	__builtin_pulp_binsert_r((dst), (src), __ExtInsMaskFast((size), (off)))
-#define __BITINSERT_R_SAFE(dst, src, size, off) 	__builtin_pulp_binsert_r((dst), (src), __ExtInsMaskSafe((size), (off)))
+#define __BITINSERT(dst, src, size, off) 	__builtin_riscv_cv_bitmanip_insert((src), __ExtInsMaskFast((size), (off)), (dst))
+#define __BITINSERT_R(dst, src, size, off) 	__builtin_riscv_cv_bitmanip_insert((src), __ExtInsMaskFast((size), (off)), (dst))
+#define __BITINSERT_R_SAFE(dst, src, size, off) 	__builtin_riscv_cv_bitmanip_insert((src), __ExtInsMaskSafe((size), (off)), (dst))
 
 /* 1 bit rotation to the right, 32 bits input */
 #define __ROTR(x)			__builtin_pulp_rotr((x))
